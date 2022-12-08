@@ -125,6 +125,7 @@ let setObject = () => {
         checkIn: checkInArr[i],
         checkOut: checkOutArr[i],
         description: "",
+        features: arrVariant[i],
       },
     };
   }
