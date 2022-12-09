@@ -1,12 +1,11 @@
 let avatar = [];
 let avatars = function () {
   for (i = 0; i < 8; i++) {
-    avatar[i] = "img/avatars/user0" + (i + 1);
+    avatar[i] = "img/avatars/user0" + (i + 1) + ".png";
   }
   return avatar[i];
 };
 avatars();
-console.log(avatar);
 
 let arrTitle = [
   "Большая уютная квартира",
@@ -43,8 +42,6 @@ let setTimes = function (arr, itogArr) {
 };
 setTimes(checkIn, checkInArr);
 setTimes(checkIn, checkOutArr);
-
-let address = [{}];
 
 let guests = [];
 let setGuests = () => {
@@ -83,7 +80,32 @@ let setPrice = () => {
   return price[i];
 };
 setPrice();
-console.log(price);
+
+let arrFoto = [
+  "http://o0.github.io/assets/images/tokyo/hotel1.jpg",
+  "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
+  "http://o0.github.io/assets/images/tokyo/hotel3.jpg",
+];
+let itogArrFoto = [];
+let randomArrFoto = [];
+
+let randomsArrFoto = (array) => {
+  let currentIndex = array.length,
+    randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  randomArrFoto = array;
+
+  return randomArrFoto;
+};
+
+randomsArrFoto(arrFoto);
 
 let features = [];
 let randomNumber;
@@ -99,14 +121,42 @@ let setFeatures = () => {
   ];
 
   for (i = 0; i < 8; i++) {
-    randomNumber = Math.floor(1 + Math.random() * 6);
-    let rand = Math.floor(Math.random() * variants.length);
-    arrVariant[i] = variants[rand];
+    randomNumber = Math.floor(1 + Math.random() * 5);
+    arrVariant[i] = variants[randomNumber];
+    for (a = 1; a < randomNumber + 1; a++) {
+      let rands = Math.floor(Math.random() * variants.length);
+
+      arrVariant[i] = arrVariant[i] + " " + variants[rands];
+    }
   }
   return arrVariant;
 };
-console.log(arrVariant);
 setFeatures();
+
+let locations = {};
+
+let setLocation = () => {
+  for (i = 0; i < 8; i++) {
+    let x;
+    let y;
+
+    y = Math.floor(130 + Math.random() * (630 + 1 - 130));
+    x = Math.floor(200 + Math.random() * (700 + 1 - 200));
+    locations[i] = { x: x, y: y };
+  }
+  return locations;
+};
+setLocation();
+
+let address = [];
+let setAdress = () => {
+  for (i = 0; i < 8; i++) {
+    address[i] = locations[i].x + ", " + locations[i].y;
+  }
+  return address;
+};
+
+setAdress();
 
 let objeckti = [];
 
@@ -126,6 +176,9 @@ let setObject = () => {
         checkOut: checkOutArr[i],
         description: "",
         features: arrVariant[i],
+        photos: randomArrFoto,
+        location: locations[i],
+        address: address[i],
       },
     };
   }
@@ -134,3 +187,17 @@ let setObject = () => {
 };
 setObject();
 console.log(objeckti);
+console.log(objeckti[1].offer.location.x);
+
+let block = document.querySelector(".map").classList.remove("map--faded");
+
+let similarPinsElement = document.querySelector(".map__pins");
+let similarPinTemplate = document
+  .querySelector("#mapp")
+  .content.querySelector(".map__pin");
+for (let i = 0; i < objeckti.length; i++) {
+  let pinsElement = similarPinTemplate.cloneNode(true);
+  pinsElement.querySelector("#pinImg").alt = objeckti[i].offer.title;
+  pinsElement.querySelector("#pinImg").src = objeckti[i].author.avatar;
+  similarPinsElement.appendChild(pinsElement);
+}
