@@ -140,8 +140,8 @@ let setLocation = () => {
     let x;
     let y;
 
-    y = Math.floor(130 + Math.random() * (630 + 1 - 130));
-    x = Math.floor(200 + Math.random() * (700 + 1 - 200));
+    y = Math.floor(130 + Math.random() * (600 + 1 - 130));
+    x = Math.floor(150 + Math.random() * (1100 + 1 - 150));
     locations[i] = { x: x, y: y };
   }
   return locations;
@@ -187,17 +187,24 @@ let setObject = () => {
 };
 setObject();
 console.log(objeckti);
-console.log(objeckti[1].offer.location.x);
+console.log(locations);
 
 let block = document.querySelector(".map").classList.remove("map--faded");
 
 let similarPinsElement = document.querySelector(".map__pins");
 let similarPinTemplate = document
   .querySelector("#mapp")
-  .content.querySelector(".map__pin");
+  .content.querySelector("#butPin");
 for (let i = 0; i < objeckti.length; i++) {
   let pinsElement = similarPinTemplate.cloneNode(true);
   pinsElement.querySelector("#pinImg").alt = objeckti[i].offer.title;
   pinsElement.querySelector("#pinImg").src = objeckti[i].author.avatar;
+  pinsElement.querySelector(".abc").style =
+    "left:" +
+    objeckti[i].offer.location.x +
+    "px;" +
+    "top:" +
+    objeckti[i].offer.location.y +
+    "px;";
   similarPinsElement.appendChild(pinsElement);
 }
