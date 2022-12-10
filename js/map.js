@@ -47,7 +47,7 @@ let guests = [];
 let setGuests = () => {
   for (i = 0; i < 8; i++) {
     let arr = [];
-    arr[i] = 3 + Math.random() * (12 + 1 - 3);
+    arr[i] = 1 + Math.random() * (5 + 1 - 1);
     guests[i] = Math.floor(arr[i]);
   }
 
@@ -73,7 +73,7 @@ let price = [];
 let setPrice = () => {
   for (i = 0; i < 8; i++) {
     let prices = [];
-    prices[i] = 10000 + Math.random() * (1000000 + 1 - 10000);
+    prices[i] = 1000 + Math.random() * (10000 + 1 - 1000);
     price[i] = Math.floor(prices[i]);
   }
 
@@ -126,7 +126,7 @@ let setFeatures = () => {
     for (a = 1; a < randomNumber + 1; a++) {
       let rands = Math.floor(Math.random() * variants.length);
 
-      arrVariant[i] = arrVariant[i] + " " + variants[rands];
+      arrVariant[i] = arrVariant[i] + "," + variants[rands];
     }
   }
   return arrVariant;
@@ -207,4 +207,55 @@ for (let i = 0; i < objeckti.length; i++) {
     objeckti[i].offer.location.y +
     "px;";
   similarPinsElement.appendChild(pinsElement);
+}
+
+let similarCartsElement = document.querySelector(".map__pins");
+let similarCartTemplate = document
+  .querySelector("#mapp")
+  .content.querySelector(".map__card");
+for (let i = 0; i < 1; i++) {
+  let cartElement = similarCartTemplate.cloneNode(true);
+
+  cartElement.querySelector(".obekt_label").textContent =
+    objeckti[i].offer.title;
+  cartElement.querySelector(".popup__text--address").textContent =
+    objeckti[i].offer.address;
+  cartElement.querySelector(".popup__price").innerHTML =
+    objeckti[i].offer.price + "&#x20bd;/ночь";
+
+  if (objeckti[i].offer.type === "flat") {
+    cartElement.querySelector(".tipus").innerHTML = "Квартира";
+  }
+  if (objeckti[i].offer.type === "bungalo") {
+    cartElement.querySelector(".tipus").innerHTML = "Бунгало";
+  }
+  if (objeckti[i].offer.type === "house") {
+    cartElement.querySelector(".tipus").innerHTML = "Дом";
+  }
+  if (objeckti[i].offer.type === "palace") {
+    cartElement.querySelector(".tipus").innerHTML = "Дворец";
+  }
+
+  cartElement.querySelector("#rooms").innerHTML =
+    objeckti[i].offer.rooms +
+    " комнаты для " +
+    objeckti[i].offer.guests +
+    " гостей";
+
+  cartElement.querySelector("#checkInOut").innerHTML =
+    "Заезд после " +
+    objeckti[i].offer.checkIn +
+    " , выезд до " +
+    objeckti[i].offer.checkOut;
+
+  cartElement.querySelector("#test").textContent =
+    objeckti[i].offer.description;
+
+  cartElement.querySelector("#i1").src = objeckti[i].offer.photos[0];
+  cartElement.querySelector("#i2").src = objeckti[i].offer.photos[1];
+  cartElement.querySelector("#i3").src = objeckti[i].offer.photos[2];
+
+  cartElement.querySelector("#cardAva").src = objeckti[i].author.avatar;
+
+  similarCartsElement.appendChild(cartElement);
 }
