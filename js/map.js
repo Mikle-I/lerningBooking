@@ -110,28 +110,48 @@ randomsArrFoto(arrFoto);
 let features = [];
 let randomNumber;
 let arrVariant = [];
-let setFeatures = () => {
-  let variants = [
-    "wifi",
-    "dishwasher",
-    "parking",
-    "washer",
-    "elevator",
-    "conditioner",
-  ];
 
+let variants = [
+  "wifi",
+  "dishwasher",
+  "parking",
+  "washer",
+  "elevator",
+  "conditioner",
+];
+
+let setFeatures = () => {
   for (i = 0; i < 8; i++) {
     randomNumber = Math.floor(1 + Math.random() * 5);
     arrVariant[i] = variants[randomNumber];
     for (a = 1; a < randomNumber + 1; a++) {
       let rands = Math.floor(Math.random() * variants.length);
-
       arrVariant[i] = arrVariant[i] + "," + variants[rands];
     }
   }
   return arrVariant;
 };
 setFeatures();
+
+let varic = [
+  "wifi",
+  "dishwasher",
+  "parking",
+  "washer",
+  "elevator",
+  "conditioner",
+];
+
+const to = [];
+const tmp = [...varic];
+while (tmp.length) {
+  to.push(tmp.splice(Math.floor(Math.random() * tmp.length), 1)[0]);
+}
+randomNumber = Math.floor(1 + Math.random() * 5);
+const arrTest = [];
+for (i = 0; i < randomNumber; i++) {
+  arrTest[i] = to[i];
+}
 
 let locations = {};
 
@@ -175,7 +195,7 @@ let setObject = () => {
         checkIn: checkInArr[i],
         checkOut: checkOutArr[i],
         description: "",
-        features: arrVariant[i],
+        features: arrTest,
         photos: randomArrFoto,
         location: locations[i],
         address: address[i],
@@ -186,8 +206,6 @@ let setObject = () => {
   return objeckti;
 };
 setObject();
-console.log(objeckti);
-console.log(locations);
 
 let block = document.querySelector(".map").classList.remove("map--faded");
 
@@ -256,6 +274,30 @@ for (let i = 0; i < 1; i++) {
   cartElement.querySelector("#i3").src = objeckti[i].offer.photos[2];
 
   cartElement.querySelector("#cardAva").src = objeckti[i].author.avatar;
+
+  for (i = 0; i < objeckti[i].offer.features.length; i++) {
+    let x = 1;
+    let y = 1;
+
+    if (objeckti[i].offer.features[i] === "wifi") {
+      cartElement.querySelector("#li1").classList.add("feature");
+    }
+    if (objeckti[i].offer.features[i] === "dishwasher") {
+      cartElement.querySelector("#li2").classList.add("feature");
+    }
+    if (objeckti[i].offer.features[i] === "parking") {
+      cartElement.querySelector("#li3").classList.add("feature");
+    }
+    if (objeckti[i].offer.features[i] === "washer") {
+      cartElement.querySelector("#li4").classList.add("feature");
+    }
+    if (objeckti[i].offer.features[i] === "elevator") {
+      cartElement.querySelector("#li5").classList.add("feature");
+    }
+    if (objeckti[i].offer.features[i] === "conditioner") {
+      cartElement.querySelector("#li6").classList.add("feature");
+    }
+  }
 
   similarCartsElement.appendChild(cartElement);
 }
