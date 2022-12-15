@@ -322,7 +322,12 @@ let visiblCarts = () => {
 let test1 = () => {
   for (i = 0; i < objeckti.length; i++) {
     document.querySelector(".n" + i).addEventListener("click", () => {
-      visiblCarts();
+      if (document.querySelector(".map__card") === null) {
+        visiblCarts();
+      } else {
+        document.querySelector(".map__card").remove();
+        visiblCarts();
+      }
     });
   }
 };
@@ -333,6 +338,13 @@ leftC = window.getComputedStyle(element).left.slice(0, -2);
 console.log(topC, leftC);
 document.querySelector(".addr").value = topC + "," + leftC;
 
+let vAdres = () => {
+  element = document.querySelector(".map__pin");
+  tops = Number(window.getComputedStyle(element).top.slice(0, -2)) + 70;
+  leftC = Number(window.getComputedStyle(element).left.slice(0, -2));
+  document.querySelector(".addr").value = tops + "," + leftC;
+};
+
 let openMap = document
   .querySelector(".map__pin--main")
   .addEventListener("mouseup", () => {
@@ -342,6 +354,7 @@ let openMap = document
       .classList.remove("notice__form--disabled");
     let yOs = document.querySelector(".map__pin--main");
     document.querySelector(".addr").value = "ok";
+    vAdres();
     visiblPins();
     test1();
 
