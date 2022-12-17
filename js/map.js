@@ -80,7 +80,6 @@ let setPrice = () => {
   return price[i];
 };
 setPrice();
-
 let arrFoto = [
   "http://o0.github.io/assets/images/tokyo/hotel1.jpg",
   "http://o0.github.io/assets/images/tokyo/hotel2.jpg",
@@ -302,8 +301,9 @@ let visiblCarts = (index, index2) => {
 };
 let nomer;
 
-let test1 = () => {
+let openCart = () => {
   for (i = 0; i < objeckti.length; i++) {
+    console.log("test openCart");
     let ti = i;
     let ti2 = i;
     document.querySelector(".n" + i).addEventListener("click", () => {
@@ -330,19 +330,75 @@ let vAdres = () => {
   document.querySelector(".addr").value = tops + "," + leftC;
 };
 
-let openMap = document
-  .querySelector(".map__pin--main")
-  .addEventListener("mouseup", () => {
-    document.querySelector(".map").classList.remove("map--faded");
-    document
-      .querySelector(".notice__form")
-      .classList.remove("notice__form--disabled");
-    let yOs = document.querySelector(".map__pin--main");
-    document.querySelector(".addr").value = "ok";
-    vAdres();
-    visiblPins();
-    test1();
+// let openMap = document
+//   .querySelector(".map__pin--main")
+//   .addEventListener("mouseup", () => {
+//     document.querySelector(".map").classList.remove("map--faded");
+//     document
+//       .querySelector(".notice__form")
+//       .classList.remove("notice__form--disabled");
+//     let yOs = document.querySelector(".map__pin--main");
+//     document.querySelector(".addr").value = "ok";
+//     vAdres();
+//     visiblPins();
+//     openCart();
+//   });
 
-    //visiblCarts();
-  });
-console.log(objeckti);
+// перемещение метки
+let metka = document.querySelector(".map__pin--main");
+let dvigPin = metka.addEventListener("mousedown", function (evt) {
+  evt.preventDefault();
+  let startCoords = {
+    x: evt.clientX,
+    y: evt.clientY,
+  };
+
+  let onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    dragged = true;
+
+    let shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY,
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY,
+    };
+
+    if (metka.offsetTop - shift.y < 140) {
+      metka.style.top = 141 + "px";
+    }
+    if (metka.offsetTop - shift.y > 650) {
+      metka.style.top = 650 + "px";
+    }
+    metka.style.top = metka.offsetTop - shift.y + "px";
+
+    if (metka.offsetLeft - shift.x < 350) {
+      metka.style.left = 350 + "px";
+    }
+    if (metka.offsetLeft - shift.x > 1050) {
+      metka.style.left = 1050 + "px";
+    }
+    metka.style.left = metka.offsetLeft - shift.x + "px";
+  };
+
+  let onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  };
+
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
+
+  document.querySelector(".map").classList.remove("map--faded");
+  document
+    .querySelector(".notice__form")
+    .classList.remove("notice__form--disabled");
+  vAdres();
+  visiblPins();
+  openCart();
+});
